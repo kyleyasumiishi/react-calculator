@@ -8,3 +8,22 @@ export const EQUALS = "EQUALS";
 export const NEGATE = "NEGATE";
 export const PERCENT = "PERCENT";
 export const DECIMAL = "DECIMAL";
+export const BUTTONS = {
+  numbers: [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine"
+  ],
+  operators: ["add", "subtract", "multiply", "divide"],
+  equals: "equals",
+  negate: "negate",
+  percent: "percent",
+  clear: "clear"
+};
