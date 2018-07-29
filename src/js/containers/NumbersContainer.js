@@ -3,11 +3,18 @@ import Button from "../components/Button";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { BUTTONS } from "../../constants";
-// import actions
+import { clickNumber } from "../actions/actions";
 
 export class NumbersContainer extends Component {
   constructor(props) {
     super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    const number = e.target.textContent;
+    console.log(number);
+    this.props.clickNumber(number);
   }
 
   render() {
@@ -16,7 +23,7 @@ export class NumbersContainer extends Component {
         <Button
           className={number.id + "-container"}
           id={number.id}
-          onClick={console.log("Test")}
+          onClick={this.handleClick}
           text={number.text}
         />
       );
@@ -30,11 +37,15 @@ export class NumbersContainer extends Component {
 //   return {};
 // }
 
-// function mapDispatchToProps(dispatch) {
-//   return ();
-// }
+function mapDispatchToProps(dispatch) {
+  return {
+    clickNumber: number => {
+      dispatch(clickNumber(number));
+    }
+  };
+}
 
 export default connect(
   null,
-  null
+  mapDispatchToProps
 )(NumbersContainer);

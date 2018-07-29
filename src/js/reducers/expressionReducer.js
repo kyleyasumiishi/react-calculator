@@ -11,9 +11,10 @@ import {
   DECIMAL
 } from "../../constants";
 
-const expressionReducer = (state = "initial", action) => {
+const expressionReducer = (state = "", action) => {
   switch (action.type) {
     case NUMBER:
+      return state + action.number;
     case ADD:
     case SUBTRACT:
     case DIVIDE:
