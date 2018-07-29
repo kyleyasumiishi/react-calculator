@@ -10,20 +10,77 @@ export const PERCENT = "PERCENT";
 export const DECIMAL = "DECIMAL";
 export const BUTTONS = {
   numbers: [
-    "zero",
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine"
+    {
+      id: "zero",
+      text: "0"
+    },
+    {
+      id: "one",
+      text: "1"
+    },
+    {
+      id: "two",
+      text: "2"
+    },
+    {
+      id: "three",
+      text: "3"
+    },
+    {
+      id: "four",
+      text: "4"
+    },
+    {
+      id: "five",
+      text: "5"
+    },
+    {
+      id: "six",
+      text: "6"
+    },
+    {
+      id: "seven",
+      text: "7"
+    },
+    {
+      id: "eight",
+      text: "8"
+    },
+    {
+      id: "nine",
+      text: "9"
+    }
   ],
-  operators: ["add", "subtract", "multiply", "divide"],
-  equals: "equals",
-  negate: "negate",
-  percent: "percent",
-  clear: "clear"
+  add: {
+    id: "add",
+    text: "+"
+  },
+  subtract: {
+    id: "subtract",
+    text: "-"
+  },
+  multiply: {
+    id: "multiply",
+    text: "*"
+  },
+  divide: {
+    id: "divide",
+    text: "/"
+  },
+  equals: {
+    id: "equals",
+    text: "="
+  },
+  negate: {
+    id: "negate",
+    text: "+/-"
+  },
+  percent: {
+    id: "percent",
+    text: "%"
+  },
+  clear: {
+    id: "clear",
+    text: "A/C"
+  }
 };

@@ -14,9 +14,10 @@ export class NumbersContainer extends Component {
     const numberButtons = BUTTONS.numbers.map(number => {
       return (
         <Button
-          className={number + "-container"}
-          id={number}
+          className={number.id + "-container"}
+          id={number.id}
           onClick={console.log("Test")}
+          text={number.text}
         />
       );
     });
