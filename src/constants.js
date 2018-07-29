@@ -1,0 +1,10 @@
+export const NUMBER = "NUMBER";
+export const ADD = "ADD";
+export const SUBTRACT = "SUBTRACT";
+export const DIVIDE = "DIVIDE";
+export const MULTIPLY = "MULTIPLY";
+export const CLEAR = "CLEAR";
+export const EQUALS = "EQUALS";
+export const NEGATE = "NEGATE";
+export const PERCENT = "PERCENT";
+export const DECIMAL = "DECIMAL";
