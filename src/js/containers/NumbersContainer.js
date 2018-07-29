@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Button from "../components/Button";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { BUTTONS } from "../../constants";
 // import actions
 
 export class NumbersContainer extends Component {
@@ -10,8 +11,7 @@ export class NumbersContainer extends Component {
   }
 
   render() {
-    const numbers = this.props.buttons.numbers;
-    const numberButtons = numbers.map(number => {
+    const numberButtons = BUTTONS.numbers.map(number => {
       return (
         <Button
           className={number + "-container"}
@@ -20,23 +20,20 @@ export class NumbersContainer extends Component {
         />
       );
     });
-    // console.log(numbers);
 
     return numberButtons;
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    buttons: state.buttons
-  };
-}
+// function mapStateToProps(state) {
+//   return {};
+// }
 
 // function mapDispatchToProps(dispatch) {
 //   return ();
 // }
 
 export default connect(
-  mapStateToProps,
+  null,
   null
 )(NumbersContainer);

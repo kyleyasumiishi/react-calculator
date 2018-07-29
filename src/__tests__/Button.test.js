@@ -9,7 +9,6 @@ describe("Button", () => {
   it("should render a <div> element with a className attribute equal to {props.className}", () => {
     const wrapper = shallow(<Button className="clear-container" />);
     const div = wrapper.find("div");
-    console.log(wrapper);
     expect(div.exists()).toBeTruthy();
     expect(div.props().className).toEqual("clear-container");
   });
