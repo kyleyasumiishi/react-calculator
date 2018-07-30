@@ -27,4 +27,14 @@ describe("actions", () => {
       expect(actions.clickOperator(operator)).toEqual(expectedAction);
     });
   });
+  describe("clickDecimal", () => {
+    it("should create a DECIMAL action", () => {
+      const decimal = ".";
+      const expectedAction = {
+        type: types.DECIMAL,
+        decimal
+      };
+      expect(actions.clickDecimal(decimal)).toEqual(expectedAction);
+    });
+  });
 });

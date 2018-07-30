@@ -70,6 +70,10 @@ export const BUTTONS = {
       text: "/"
     }
   ],
+  decimal: {
+    id: "decimal",
+    text: "."
+  },
   equals: {
     id: "equals",
     text: "="

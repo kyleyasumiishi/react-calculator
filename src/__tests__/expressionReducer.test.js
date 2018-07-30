@@ -61,4 +61,56 @@ describe("expressionReducer", () => {
       }).currentExpression
     ).toEqual("30*");
   });
+  it("should handle DECIMAL action type", () => {
+    const initialStateA = {
+      currentExpression: "",
+      previousExpression: ""
+    };
+    expect(
+      expressionReducer(initialStateA, {
+        type: types.DECIMAL,
+        decimal: "."
+      }).currentExpression
+    ).toEqual("0.");
+    const initialStateB = {
+      currentExpression: "",
+      previousExpression: "30"
+    };
+    expect(
+      expressionReducer(initialStateB, {
+        type: types.DECIMAL,
+        decimal: "."
+      }).currentExpression
+    ).toEqual("0.");
+    const initialStateC = {
+      currentExpression: "4+",
+      previousExpression: ""
+    };
+    expect(
+      expressionReducer(initialStateC, {
+        type: types.DECIMAL,
+        decimal: "."
+      }).currentExpression
+    ).toEqual("4+0.");
+    const initialStateD = {
+      currentExpression: "4",
+      previousExpression: ""
+    };
+    expect(
+      expressionReducer(initialStateD, {
+        type: types.DECIMAL,
+        decimal: "."
+      }).currentExpression
+    ).toEqual("4.");
+    const initialStateE = {
+      currentExpression: "4.5+70",
+      previousExpression: ""
+    };
+    expect(
+      expressionReducer(initialStateE, {
+        type: types.DECIMAL,
+        decimal: "."
+      }).currentExpression
+    ).toEqual("4.5+70");
+  });
 });

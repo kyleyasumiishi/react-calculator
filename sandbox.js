@@ -11,4 +11,17 @@ Add OperatorsContainer - DONE
 Add dispatch method to OperatorsContainer to dispatch action to store - DONE
 Add previousExpression to initial state - DONE
 
+///////////////////////////////////////////////////////////////////
+
+Decimal
+
+Write test for action - DONE
+Add action - DONE
+Write test for DecimalContainer (should render 1 button) - DONE
+Add DecimalContainer - DONE
+Write test for reducer - DONE
+Write reducer - DONE
+Add dispatch to DecimalContainer
+Add DecimalContainer to App.js - DONE
+
 */

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import NumbersContainer from "./js/containers/NumbersContainer";
 import DisplayContainer from "./js/containers/DisplayContainer";
 import OperatorsContainer from "./js/containers/OperatorsContainer";
+import DecimalContainer from "./js/containers/DecimalContainer";
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
         <DisplayContainer />
         <NumbersContainer />
         <OperatorsContainer />
+        <DecimalContainer />
       </div>
     );
   }

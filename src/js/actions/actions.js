@@ -13,3 +13,10 @@ export const clickOperator = operator => {
     operator
   };
 };
+
+export const clickDecimal = decimal => {
+  return {
+    type: types.DECIMAL,
+    decimal
+  };
+};
