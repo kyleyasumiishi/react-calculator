@@ -1,42 +1,41 @@
 import React, { Component } from "react";
 import Button from "../components/Button";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { BUTTONS } from "../../constants";
-import { clickNumber } from "../actions/actions";
+import { clickOperator } from "../actions/actions";
 
-export class NumbersContainer extends Component {
+export class OperatorsContainer extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(e) {
-    const number = e.target.textContent;
-    console.log(number);
-    this.props.clickNumber(number);
+    const operator = e.target.textContent;
+    console.log(operator);
+    this.props.clickOperator(operator);
   }
 
   render() {
-    const numberButtons = BUTTONS.numbers.map(number => {
+    const operatorButtons = BUTTONS.operators.map(operator => {
       return (
         <Button
-          className={number.id + "-container"}
-          id={number.id}
+          className={operator.id + "-container"}
+          id={operator.id}
           onClick={this.handleClick}
-          text={number.text}
+          text={operator.text}
         />
       );
     });
 
-    return numberButtons;
+    return operatorButtons;
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    clickNumber: number => {
-      dispatch(clickNumber(number));
+    clickOperator: operator => {
+      dispatch(clickOperator(operator));
     }
   };
 }
@@ -44,4 +43,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   null,
   mapDispatchToProps
-)(NumbersContainer);
+)(OperatorsContainer);

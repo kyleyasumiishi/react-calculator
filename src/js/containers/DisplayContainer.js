@@ -14,7 +14,7 @@ export class DisplayContainer extends Component {
       <Display
         className="display-container"
         id="display"
-        display={this.props.expression}
+        display={this.props.currentExpression}
       />
     );
   }
@@ -22,7 +22,7 @@ export class DisplayContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    expression: state
+    currentExpression: state.currentExpression
   };
 }
 

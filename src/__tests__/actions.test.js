@@ -17,4 +17,14 @@ describe("actions", () => {
       expect(actions.clickNumber(number)).toEqual(expectedAction);
     });
   });
+  describe("clickOperator", () => {
+    it("should create an OPERATOR action", () => {
+      const operator = "/";
+      const expectedAction = {
+        type: types.OPERATOR,
+        operator
+      };
+      expect(actions.clickOperator(operator)).toEqual(expectedAction);
+    });
+  });
 });

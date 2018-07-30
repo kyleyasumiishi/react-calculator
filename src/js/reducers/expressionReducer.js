@@ -1,29 +1,55 @@
-import {
-  NUMBER,
-  ADD,
-  SUBTRACT,
-  DIVIDE,
-  MULTIPLY,
-  CLEAR,
-  EQUALS,
-  NEGATE,
-  PERCENT,
-  DECIMAL
-} from "../../constants";
+import * as types from "../../constants";
 
-const expressionReducer = (state = "", action) => {
+const initialState = {
+  currentExpression: "",
+  previousExpression: ""
+};
+
+const expressionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case NUMBER:
-      return state + action.number;
-    case ADD:
-    case SUBTRACT:
-    case DIVIDE:
-    case MULTIPLY:
-    case CLEAR:
-    case EQUALS:
-    case NEGATE:
-    case PERCENT:
-    case DECIMAL:
+    case types.NUMBER:
+      return {
+        currentExpression: state.currentExpression + action.number,
+        previousExpression: state.previousExpression
+      };
+
+    case types.OPERATOR:
+      // IF currentExpression is an empty string
+      if (state.currentExpression === "") {
+        if (state.previousExpression === "") {
+          return state;
+        } else {
+          return {
+            currentExpression: state.previousExpression + action.operator,
+            previousExpression: state.previousExpression
+          };
+        }
+      }
+      // IF currentExpression is NOT an empty string
+      else {
+        const operators = types.BUTTONS.operators.map(operator => {
+          return operator.text;
+        });
+        const lastIdx = state.currentExpression.length - 1;
+        const lastChar = state.currentExpression.charAt(lastIdx);
+        if (operators.indexOf(lastChar) > -1) {
+          return {
+            currentExpression:
+              state.currentExpression.slice(0, lastIdx) + action.operator,
+            previousExpression: state.previousExpression
+          };
+        } else {
+          return {
+            currentExpression: state.currentExpression + action.operator,
+            previousExpression: state.previousExpression
+          };
+        }
+      }
+    case types.CLEAR:
+    case types.EQUALS:
+    case types.NEGATE:
+    case types.PERCENT:
+    case types.DECIMAL:
     default:
       return state;
   }

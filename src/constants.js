@@ -1,8 +1,9 @@
 export const NUMBER = "NUMBER";
-export const ADD = "ADD";
-export const SUBTRACT = "SUBTRACT";
-export const DIVIDE = "DIVIDE";
-export const MULTIPLY = "MULTIPLY";
+export const OPERATOR = "OPERATOR";
+// export const ADD = "ADD";
+// export const SUBTRACT = "SUBTRACT";
+// export const DIVIDE = "DIVIDE";
+// export const MULTIPLY = "MULTIPLY";
 export const CLEAR = "CLEAR";
 export const EQUALS = "EQUALS";
 export const NEGATE = "NEGATE";
@@ -51,22 +52,24 @@ export const BUTTONS = {
       text: "9"
     }
   ],
-  add: {
-    id: "add",
-    text: "+"
-  },
-  subtract: {
-    id: "subtract",
-    text: "-"
-  },
-  multiply: {
-    id: "multiply",
-    text: "*"
-  },
-  divide: {
-    id: "divide",
-    text: "/"
-  },
+  operators: [
+    {
+      id: "add",
+      text: "+"
+    },
+    {
+      id: "subtract",
+      text: "-"
+    },
+    {
+      id: "multiply",
+      text: "*"
+    },
+    {
+      id: "divide",
+      text: "/"
+    }
+  ],
   equals: {
     id: "equals",
     text: "="

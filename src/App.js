@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import "./css/App.css";
+import { connect } from "react-redux";
+
+// Import containers
 import NumbersContainer from "./js/containers/NumbersContainer";
 import DisplayContainer from "./js/containers/DisplayContainer";
-import { connect } from "react-redux";
+import OperatorsContainer from "./js/containers/OperatorsContainer";
 
 class App extends Component {
   render() {
@@ -10,6 +13,7 @@ class App extends Component {
       <div>
         <DisplayContainer />
         <NumbersContainer />
+        <OperatorsContainer />
       </div>
     );
   }

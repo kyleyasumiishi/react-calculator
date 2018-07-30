@@ -6,3 +6,10 @@ export const clickNumber = number => {
     number
   };
 };
+
+export const clickOperator = operator => {
+  return {
+    type: types.OPERATOR,
+    operator
+  };
+};
