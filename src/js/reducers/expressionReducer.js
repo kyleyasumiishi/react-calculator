@@ -1,51 +1,47 @@
 import * as types from "../../constants";
 
 const initialState = {
-  currentExpression: "",
-  previousExpression: ""
+  current: "",
+  previous: ""
 };
 
 const expressionReducer = (state = initialState, action) => {
   const operators = types.BUTTONS.operators.map(operator => {
     return operator.text;
   });
-  // const numbers = types.BUTTONS.numbers.map(number => {
-  //   return number.text;
-  // });
-  const lastIdx = state.currentExpression.length - 1;
-  const lastChar = state.currentExpression.charAt(lastIdx);
+  const lastIdx = state.current.length - 1;
+  const lastChar = state.current.charAt(lastIdx);
 
   switch (action.type) {
     case types.NUMBER:
       return {
-        currentExpression: state.currentExpression + action.number,
-        previousExpression: state.previousExpression
+        current: state.current + action.number,
+        previous: state.previous
       };
 
     case types.OPERATOR:
-      // IF currentExpression is an empty string
-      if (state.currentExpression === "") {
-        if (state.previousExpression === "") {
+      // IF current is an empty string
+      if (state.current === "") {
+        if (state.previous === "") {
           return state;
         } else {
           return {
-            currentExpression: state.previousExpression + action.operator,
-            previousExpression: state.previousExpression
+            current: state.previous + action.operator,
+            previous: state.previous
           };
         }
       }
-      // IF currentExpression is NOT an empty string
+      // IF current is NOT an empty string
       else {
         if (operators.indexOf(lastChar) > -1) {
           return {
-            currentExpression:
-              state.currentExpression.slice(0, lastIdx) + action.operator,
-            previousExpression: state.previousExpression
+            current: state.current.slice(0, lastIdx) + action.operator,
+            previous: state.previous
           };
         } else {
           return {
-            currentExpression: state.currentExpression + action.operator,
-            previousExpression: state.previousExpression
+            current: state.current + action.operator,
+            previous: state.previous
           };
         }
       }
@@ -54,23 +50,23 @@ const expressionReducer = (state = initialState, action) => {
     case types.NEGATE:
     case types.PERCENT:
     case types.DECIMAL:
-      if (state.currentExpression.indexOf(".") > -1) {
+      if (state.current.indexOf(".") > -1) {
         return state;
-      } else if (state.currentExpression === "") {
+      } else if (state.current === "") {
         return {
-          currentExpression: "0.",
-          previousExpression: state.previousExpression
+          current: "0.",
+          previous: state.previous
         };
       } else {
         if (operators.indexOf(lastChar) > -1) {
           return {
-            currentExpression: state.currentExpression + "0.",
-            previousExpression: state.previousExpression
+            current: state.current + "0.",
+            previous: state.previous
           };
         } else {
           return {
-            currentExpression: state.currentExpression + ".",
-            previousExpression: state.previousExpression
+            current: state.current + ".",
+            previous: state.previous
           };
         }
       }
