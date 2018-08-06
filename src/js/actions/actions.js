@@ -20,3 +20,9 @@ export const clickDecimal = decimal => {
     decimal
   };
 };
+
+export const clickClear = () => {
+  return {
+    type: types.CLEAR
+  };
+};

@@ -46,6 +46,10 @@ const expressionReducer = (state = initialState, action) => {
         }
       }
     case types.CLEAR:
+      return {
+        current: "",
+        previous: ""
+      };
     case types.EQUALS:
     case types.NEGATE:
     case types.PERCENT:
