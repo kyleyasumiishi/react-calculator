@@ -26,3 +26,9 @@ export const clickClear = () => {
     type: types.CLEAR
   };
 };
+
+export const clickEquals = () => {
+  return {
+    type: types.EQUALS
+  };
+};

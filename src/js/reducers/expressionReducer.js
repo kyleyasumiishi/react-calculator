@@ -51,9 +51,20 @@ const expressionReducer = (state = initialState, action) => {
         previous: ""
       };
     case types.EQUALS:
+      if (operators.indexOf(lastChar) > -1) {
+        return {
+          current: String(eval(state.current.slice(0, lastIdx))),
+          previous: String(state.current.slice(0, lastIdx))
+        };
+      } else {
+        return {
+          current: String(eval(state.current)),
+          previous: String(state.current)
+        };
+      }
     case types.NEGATE:
-    case types.PERCENT:
-    case types.DECIMAL:
+    case types.PERCENT: // first evaluate. then divide by 100
+    case types.DECIMAL: // if current number contains a decimal, not entire expression
       if (state.current.indexOf(".") > -1) {
         return state;
       } else if (state.current === "") {

@@ -12,6 +12,7 @@ export class NumbersContainer extends Component {
     this.clickOperator = this.clickOperator.bind(this);
     this.clickDecimal = this.clickDecimal.bind(this);
     this.clickClear = this.clickClear.bind(this);
+    this.clickEquals = this.clickEquals.bind(this);
   }
 
   clickNumber(e) {
@@ -34,6 +35,10 @@ export class NumbersContainer extends Component {
 
   clickClear() {
     this.props.clickClear();
+  }
+
+  clickEquals() {
+    this.props.clickEquals();
   }
 
   render() {
@@ -77,12 +82,22 @@ export class NumbersContainer extends Component {
       />
     );
 
+    const equalsButton = (
+      <Button
+        className={BUTTONS.equals.id + "-container"}
+        id={BUTTONS.equals.id}
+        onClick={this.clickEquals}
+        text={BUTTONS.equals.text}
+      />
+    );
+
     return (
       <div>
         {numberButtons}
         {operatorButtons}
         {decimalButton}
         {clearButton}
+        {equalsButton}
       </div>
     );
   }
@@ -94,7 +109,8 @@ function mapDispatchToProps(dispatch) {
       clickNumber: actions.clickNumber,
       clickOperator: actions.clickOperator,
       clickDecimal: actions.clickDecimal,
-      clickClear: actions.clickClear
+      clickClear: actions.clickClear,
+      clickEquals: actions.clickEquals
     },
     dispatch
   );
