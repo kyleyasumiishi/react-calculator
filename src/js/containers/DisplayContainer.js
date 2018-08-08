@@ -14,7 +14,7 @@ export class DisplayContainer extends Component {
       <Display
         className="display-container"
         id="display"
-        display={this.props.current}
+        display={this.props.display}
       />
     );
   }
@@ -22,7 +22,8 @@ export class DisplayContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    current: state.current
+    // current: state.current
+    display: state.display
   };
 }
 
