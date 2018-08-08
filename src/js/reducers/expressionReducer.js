@@ -52,8 +52,10 @@ const expressionReducer = (state = initialState, action) => {
         current: "",
         previous: ""
       };
+    // NEGATE logic falls through to EQUALS.
     case types.NEGATE:
       negate = -1;
+    // PERCENT logic falls through to EQUALS.
     case types.PERCENT:
       percent = 100;
     case types.EQUALS:
