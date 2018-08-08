@@ -13,6 +13,8 @@ export class NumbersContainer extends Component {
     this.clickDecimal = this.clickDecimal.bind(this);
     this.clickClear = this.clickClear.bind(this);
     this.clickEquals = this.clickEquals.bind(this);
+    this.clickNegate = this.clickNegate.bind(this);
+    this.clickPercent = this.clickPercent.bind(this);
   }
 
   clickNumber(e) {
@@ -39,6 +41,14 @@ export class NumbersContainer extends Component {
 
   clickEquals() {
     this.props.clickEquals();
+  }
+
+  clickNegate() {
+    this.props.clickNegate();
+  }
+
+  clickPercent() {
+    this.props.clickPercent();
   }
 
   render() {
@@ -91,6 +101,24 @@ export class NumbersContainer extends Component {
       />
     );
 
+    const negateButton = (
+      <Button
+        className={BUTTONS.negate.id + "-container"}
+        id={BUTTONS.negate.id}
+        onClick={this.clickNegate}
+        text={BUTTONS.negate.text}
+      />
+    );
+
+    const percentButton = (
+      <Button
+        className={BUTTONS.percent.id + "-container"}
+        id={BUTTONS.percent.id}
+        onClick={this.clickPercent}
+        text={BUTTONS.percent.text}
+      />
+    );
+
     return (
       <div>
         {numberButtons}
@@ -98,6 +126,8 @@ export class NumbersContainer extends Component {
         {decimalButton}
         {clearButton}
         {equalsButton}
+        {negateButton}
+        {percentButton}
       </div>
     );
   }
@@ -110,7 +140,9 @@ function mapDispatchToProps(dispatch) {
       clickOperator: actions.clickOperator,
       clickDecimal: actions.clickDecimal,
       clickClear: actions.clickClear,
-      clickEquals: actions.clickEquals
+      clickEquals: actions.clickEquals,
+      clickNegate: actions.clickNegate,
+      clickPercent: actions.clickPercent
     },
     dispatch
   );

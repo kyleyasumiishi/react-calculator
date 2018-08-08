@@ -32,3 +32,15 @@ export const clickEquals = () => {
     type: types.EQUALS
   };
 };
+
+export const clickNegate = () => {
+  return {
+    type: types.NEGATE
+  };
+};
+
+export const clickPercent = () => {
+  return {
+    type: types.PERCENT
+  };
+};

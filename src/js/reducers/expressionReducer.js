@@ -11,6 +11,8 @@ const expressionReducer = (state = initialState, action) => {
   });
   const lastIdx = state.current.length - 1;
   const lastChar = state.current.charAt(lastIdx);
+  let negate = 1;
+  let percent = 1;
 
   switch (action.type) {
     case types.NUMBER:
@@ -50,20 +52,24 @@ const expressionReducer = (state = initialState, action) => {
         current: "",
         previous: ""
       };
+    case types.NEGATE:
+      negate = -1;
+    case types.PERCENT:
+      percent = 100;
     case types.EQUALS:
-      if (operators.indexOf(lastChar) > -1) {
+      if (operators.includes(lastChar)) {
         return {
-          current: String(eval(state.current.slice(0, lastIdx))),
+          current: String(
+            eval((state.current.slice(0, lastIdx) * negate) / percent)
+          ),
           previous: String(state.current.slice(0, lastIdx))
         };
       } else {
         return {
-          current: String(eval(state.current)),
+          current: String((eval(state.current) * negate) / percent),
           previous: String(state.current)
         };
       }
-    case types.NEGATE:
-    case types.PERCENT: // first evaluate. then divide by 100
     case types.DECIMAL: // if current number contains a decimal, not entire expression
       const currentReversed = state.current.split("").reverse();
       const endsWithOperator = operators.includes(currentReversed[0]);
