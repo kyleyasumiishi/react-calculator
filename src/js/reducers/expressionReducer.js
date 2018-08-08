@@ -29,6 +29,10 @@ function getLastNum(current, operators) {
   return lastNum;
 }
 
+function getDisplay(updated, lastNum) {
+  return updated < 0 ? "-" + lastNum : lastNum;
+}
+
 function evaluateExpression(state, operators, negate, percent) {
   const lastIdx = state.current.length - 1;
   const lastChar = state.current.charAt(lastIdx);
@@ -37,20 +41,50 @@ function evaluateExpression(state, operators, negate, percent) {
     updated = String(
       eval((state.current.slice(0, lastIdx) * negate) / percent)
     );
-    // console.log("updated", updated);
-    return {
-      current: updated,
-      previous: String(state.current.slice(0, lastIdx)),
-      display: getLastNum(updated, operators)
-    };
+    console.log("updated", updated);
+
+    return parseInt(updated, 10) !== undefined &&
+      !isNaN(parseInt(updated, 10)) &&
+      typeof parseInt(updated, 10) === "number"
+      ? {
+          current: updated,
+          previous: String(state.current.slice(0, lastIdx)),
+          display: getDisplay(updated, getLastNum(updated, operators))
+        }
+      : {
+          current: "",
+          previous: "",
+          display: "0"
+        };
+
+    // return {
+    //   current: updated,
+    //   previous: String(state.current.slice(0, lastIdx)),
+    //   display: getDisplay(updated, getLastNum(updated, operators))
+    // };
   } else {
     updated = String((eval(state.current) * negate) / percent);
-    // console.log("updated", updated);
-    return {
-      current: updated,
-      previous: String(state.current),
-      display: getLastNum(updated, operators)
-    };
+    console.log("updated", updated);
+
+    return parseInt(updated, 10) !== undefined &&
+      !isNaN(parseInt(updated, 10)) &&
+      typeof parseInt(updated, 10) === "number"
+      ? {
+          current: updated,
+          previous: String(state.current),
+          display: getDisplay(updated, getLastNum(updated, operators))
+        }
+      : {
+          current: "",
+          previous: "",
+          display: "0"
+        };
+
+    // return {
+    //   current: updated,
+    //   previous: String(state.current),
+    //   display: getDisplay(updated, getLastNum(updated, operators))
+    // };
   }
 }
 
@@ -60,8 +94,8 @@ const expressionReducer = (state = initialState, action) => {
   });
   const lastIdx = state.current.length - 1;
   const lastChar = state.current.charAt(lastIdx);
-  let negate = 1;
   let percent = 1;
+  let negate = 1;
 
   switch (action.type) {
     case types.NUMBER:
@@ -69,7 +103,7 @@ const expressionReducer = (state = initialState, action) => {
       return {
         current: updated,
         previous: state.previous,
-        display: getLastNum(updated, operators)
+        display: getDisplay(updated, getLastNum(updated, operators))
       };
 
     case types.OPERATOR:
@@ -83,7 +117,10 @@ const expressionReducer = (state = initialState, action) => {
           return {
             current: updated,
             previous: state.previous,
-            display: getLastNum(updated, operators)
+            display: getDisplay(
+              updated.slice(0, updated.length - 1),
+              getLastNum(updated, operators)
+            )
           };
         }
       }
@@ -94,14 +131,20 @@ const expressionReducer = (state = initialState, action) => {
           return {
             current: updated,
             previous: state.previous,
-            display: getLastNum(updated, operators)
+            display: getDisplay(
+              updated.slice(0, updated.length - 1),
+              getLastNum(updated, operators)
+            )
           };
         } else {
           updated = state.current + action.operator;
           return {
             current: updated,
             previous: state.previous,
-            display: getLastNum(updated, operators)
+            display: getDisplay(
+              updated.slice(0, updated.length - 1),
+              getLastNum(updated, operators)
+            )
           };
         }
       }
@@ -113,7 +156,10 @@ const expressionReducer = (state = initialState, action) => {
       };
     case types.NEGATE:
       negate = -1;
-      return evaluateExpression(state, operators, negate, percent);
+      console.log("eval:", eval(state.current));
+      return eval(state.current) === undefined
+        ? state
+        : evaluateExpression(state, operators, negate, percent);
     case types.PERCENT:
       percent = 100;
       return evaluateExpression(state, operators, negate, percent);
@@ -129,7 +175,7 @@ const expressionReducer = (state = initialState, action) => {
         return {
           current: updated,
           previous: state.previous,
-          display: getLastNum(updated, operators)
+          display: getDisplay(updated, getLastNum(updated, operators))
         };
       } else if (lastNum.includes(".")) {
         return state;
@@ -138,14 +184,14 @@ const expressionReducer = (state = initialState, action) => {
         return {
           current: updated,
           previous: state.previous,
-          display: getLastNum(updated, operators)
+          display: getDisplay(updated, getLastNum(updated, operators))
         };
       } else {
         updated = state.current + ".";
         return {
           current: updated,
           previous: state.previous,
-          display: getLastNum(updated, operators)
+          display: getDisplay(updated, getLastNum(updated, operators))
         };
       }
 
