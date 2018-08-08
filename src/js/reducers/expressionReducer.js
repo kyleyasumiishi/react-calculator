@@ -65,7 +65,31 @@ const expressionReducer = (state = initialState, action) => {
     case types.NEGATE:
     case types.PERCENT: // first evaluate. then divide by 100
     case types.DECIMAL: // if current number contains a decimal, not entire expression
-      if (state.current.indexOf(".") > -1) {
+      const currentReversed = state.current.split("").reverse();
+      const endsWithOperator = operators.includes(currentReversed[0]);
+      let isNum = true;
+      let lastNum = "";
+      let startIdx = endsWithOperator ? 1 : 0;
+
+      while (isNum) {
+        for (let i = startIdx; i < currentReversed.length; i++) {
+          const char = currentReversed[i];
+          if (operators.includes(char)) {
+            isNum = false;
+            break;
+          } else {
+            lastNum = char + lastNum;
+          }
+        }
+        break;
+      }
+
+      if (endsWithOperator) {
+        return {
+          current: state.current + "0.",
+          previous: state.previous
+        };
+      } else if (lastNum.includes(".")) {
         return state;
       } else if (state.current === "") {
         return {
@@ -73,18 +97,12 @@ const expressionReducer = (state = initialState, action) => {
           previous: state.previous
         };
       } else {
-        if (operators.indexOf(lastChar) > -1) {
-          return {
-            current: state.current + "0.",
-            previous: state.previous
-          };
-        } else {
-          return {
-            current: state.current + ".",
-            previous: state.previous
-          };
-        }
+        return {
+          current: state.current + ".",
+          previous: state.previous
+        };
       }
+
     default:
       return state;
   }
