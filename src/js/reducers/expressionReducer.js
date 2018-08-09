@@ -1,27 +1,32 @@
 import * as types from "../../constants";
 
+const OPERATORS = types.BUTTONS.operators.map(operator => {
+  return operator.text;
+});
+
 const initialState = {
   current: "",
   previous: "",
   display: "0"
 };
 
-function getLastNum(current, operators) {
-  const currentReversed = current.split("").reverse();
-  const endsWithOperator = operators.includes(currentReversed[0]);
-  let isNum = true;
+/*
+ * Returns a string of the last consecutive numbers in the input string.
+ * @param {String}
+ * @returns {String}
+ */
+function getLastNum(str) {
+  const startIdx = endsWithOperator(str) ? str.length - 2 : str.length - 1;
   let lastNum = "";
-  let startIdx = endsWithOperator ? 1 : 0;
+  let isNum = true;
   while (isNum) {
-    for (let i = startIdx; i < currentReversed.length; i++) {
-      console.log("lastNum: ", lastNum);
-      const char = currentReversed[i];
-      console.log("char: ", char);
-      if (operators.includes(char)) {
+    for (let i = startIdx; i >= 0; i--) {
+      const character = str[i];
+      if (OPERATORS.includes(character)) {
         isNum = false;
         break;
       } else {
-        lastNum = char + lastNum;
+        lastNum = character + lastNum;
       }
     }
     break;
@@ -29,63 +34,46 @@ function getLastNum(current, operators) {
   return lastNum;
 }
 
-function getDisplay(updated, lastNum) {
-  return updated < 0 ? "-" + lastNum : lastNum;
+function endsWithOperator(str) {
+  return str.length > 0
+    ? OPERATORS.includes(str.charAt(str.length - 1))
+    : false;
 }
 
-function evaluateExpression(state, operators, negate, percent) {
-  const lastIdx = state.current.length - 1;
-  const lastChar = state.current.charAt(lastIdx);
-  let updated;
-  if (operators.includes(lastChar)) {
-    updated = String(
-      eval((state.current.slice(0, lastIdx) * negate) / percent)
-    );
-    console.log("updated", updated);
+/*
+ * Returns a string with or without a minus sign prefixed to the display input string.
+ * @param {String} - expression
+ * @param {String} - display
+ * @returns {String}
+ */
+function getDisplay(expression, display) {
+  return parseInt(expression, 10) < 0 ? "-" + display : display;
+}
 
-    return parseInt(updated, 10) !== undefined &&
-      !isNaN(parseInt(updated, 10)) &&
-      typeof parseInt(updated, 10) === "number"
-      ? {
-          current: updated,
-          previous: String(state.current.slice(0, lastIdx)),
-          display: getDisplay(updated, getLastNum(updated, operators))
-        }
-      : {
-          current: "",
-          previous: "",
-          display: "0"
-        };
+/*
+ * Returns true if string represents a valid number (not undefined or NaN)
+ * @param {String}
+ */
+function isValidNumber(str) {
+  let num = parseInt(str, 10);
+  return num !== undefined && !isNaN(num) && typeof num === "number";
+}
 
-    // return {
-    //   current: updated,
-    //   previous: String(state.current.slice(0, lastIdx)),
-    //   display: getDisplay(updated, getLastNum(updated, operators))
-    // };
-  } else {
-    updated = String((eval(state.current) * negate) / percent);
-    console.log("updated", updated);
-
-    return parseInt(updated, 10) !== undefined &&
-      !isNaN(parseInt(updated, 10)) &&
-      typeof parseInt(updated, 10) === "number"
-      ? {
-          current: updated,
-          previous: String(state.current),
-          display: getDisplay(updated, getLastNum(updated, operators))
-        }
-      : {
-          current: "",
-          previous: "",
-          display: "0"
-        };
-
-    // return {
-    //   current: updated,
-    //   previous: String(state.current),
-    //   display: getDisplay(updated, getLastNum(updated, operators))
-    // };
-  }
+function evaluateExpression(state, negate, percent) {
+  const lastNumIdx = endsWithOperator(state.current)
+    ? state.current.length - 1
+    : state.current.length;
+  const evaluated = String(
+    eval(state.current.slice(0, lastNumIdx) * negate) / percent
+  );
+  const unevaluated = String(state.current.slice(0, lastNumIdx));
+  return isValidNumber(evaluated)
+    ? {
+        current: evaluated,
+        previous: unevaluated,
+        display: getDisplay(evaluated, getLastNum(evaluated))
+      }
+    : initialState;
 }
 
 const expressionReducer = (state = initialState, action) => {
@@ -149,22 +137,15 @@ const expressionReducer = (state = initialState, action) => {
         }
       }
     case types.CLEAR:
-      return {
-        current: "",
-        previous: "",
-        display: "0"
-      };
+      return initialState;
     case types.NEGATE:
       negate = -1;
-      console.log("eval:", eval(state.current));
-      return eval(state.current) === undefined
-        ? state
-        : evaluateExpression(state, operators, negate, percent);
+      return evaluateExpression(state, negate, percent);
     case types.PERCENT:
       percent = 100;
-      return evaluateExpression(state, operators, negate, percent);
+      return evaluateExpression(state, negate, percent);
     case types.EQUALS:
-      return evaluateExpression(state, operators, negate, percent);
+      return evaluateExpression(state, negate, percent);
     case types.DECIMAL:
       const currentReversed = state.current.split("").reverse();
       const endsWithOperator = operators.includes(currentReversed[0]);
