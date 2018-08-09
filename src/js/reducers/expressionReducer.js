@@ -55,10 +55,9 @@ const expressionReducer = (state = initialState, action) => {
       if (lastNum.includes(".")) {
         return state;
       }
-      newCurrent = endsWithOperator(state.current)
-        ? state.current + "0."
-        : state.current === ""
-          ? "0."
+      newCurrent =
+        endsWithOperator(state.current) || state.current === ""
+          ? state.current + "0."
           : state.current + ".";
       return {
         current: newCurrent,
