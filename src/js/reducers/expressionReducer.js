@@ -19,6 +19,9 @@ const expressionReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case types.NUMBER:
+      if (action.number === "0" && state.display === "0") {
+        return state;
+      }
       newCurrent = state.current + action.number;
       return {
         current: newCurrent,
