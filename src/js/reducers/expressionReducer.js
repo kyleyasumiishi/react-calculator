@@ -11,8 +11,8 @@ const initialState = {
 };
 
 const expressionReducer = (state = initialState, action) => {
-  const lastIdx = state.current.length - 1;
-  const lastChar = state.current.charAt(lastIdx);
+  const lastCharIdx = state.current.length - 1;
+  const lastChar = state.current.charAt(lastCharIdx);
   let divisor = 1;
   let multiplier = 1;
   let newCurrent;
@@ -33,7 +33,7 @@ const expressionReducer = (state = initialState, action) => {
         state.current === ""
           ? state.previous + action.operator
           : OPERATORS.includes(lastChar)
-            ? state.current.slice(0, lastIdx) + action.operator
+            ? state.current.slice(0, lastCharIdx) + action.operator
             : state.current + action.operator;
       return {
         current: newCurrent,
