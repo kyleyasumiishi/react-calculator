@@ -10,6 +10,71 @@ const initialState = {
   display: "0"
 };
 
+const expressionReducer = (state = initialState, action) => {
+  const lastIdx = state.current.length - 1;
+  const lastChar = state.current.charAt(lastIdx);
+  let divisor = 1;
+  let multiplier = 1;
+  let newCurrent;
+
+  switch (action.type) {
+    case types.NUMBER:
+      newCurrent = state.current + action.number;
+      return {
+        current: newCurrent,
+        previous: state.previous,
+        display: getDisplay(newCurrent)
+      };
+    case types.OPERATOR:
+      if (state.current === "" && state.previous === "") {
+        return state;
+      }
+      newCurrent =
+        state.current === ""
+          ? state.previous + action.operator
+          : OPERATORS.includes(lastChar)
+            ? state.current.slice(0, lastIdx) + action.operator
+            : state.current + action.operator;
+      return {
+        current: newCurrent,
+        previous: state.previous,
+        display: getDisplay(newCurrent)
+      };
+    case types.CLEAR:
+      return initialState;
+    case types.NEGATE:
+      multiplier = -1;
+      return evaluateExpression(state, multiplier, divisor);
+    case types.PERCENT:
+      divisor = 100;
+      return evaluateExpression(state, multiplier, divisor);
+    case types.EQUALS:
+      return evaluateExpression(state, multiplier, divisor);
+    case types.DECIMAL:
+      let lastNum = getLastNum(state.current);
+      if (lastNum.includes(".")) {
+        return state;
+      }
+      newCurrent = endsWithOperator(state.current)
+        ? state.current + "0."
+        : state.current === ""
+          ? "0."
+          : state.current + ".";
+      return {
+        current: newCurrent,
+        previous: state.previous,
+        display: getDisplay(newCurrent)
+      };
+
+    default:
+      return state;
+  }
+};
+
+/////////////////////////////////////////////////////////
+
+// Helper functions
+
 /*
  * Returns a string of the last consecutive numbers in the input string.
  * @param {String}
@@ -34,6 +99,9 @@ function getLastNum(str) {
   return lastNum;
 }
 
+/*
+ * Returns true if input string ends with an operator.
+ */
 function endsWithOperator(str) {
   return str.length > 0
     ? OPERATORS.includes(str.charAt(str.length - 1))
@@ -41,13 +109,13 @@ function endsWithOperator(str) {
 }
 
 /*
- * Returns a string with or without a minus sign prefixed to the display input string.
- * @param {String} - expression
- * @param {String} - display
- * @returns {String}
+ * Returns a string with or without a minus sign prefixed.
+ * @param {String} - str
  */
-function getDisplay(expression, display) {
-  return parseInt(expression, 10) < 0 ? "-" + display : display;
+function getDisplay(str) {
+  console.assert(typeof str === "string", "expression must be string");
+  let lastNum = getLastNum(str);
+  return parseInt(str, 10) < 0 ? "-" + lastNum : lastNum;
 }
 
 /*
@@ -59,126 +127,27 @@ function isValidNumber(str) {
   return num !== undefined && !isNaN(num) && typeof num === "number";
 }
 
-function evaluateExpression(state, negate, percent) {
+/*
+ * Evaluates the current expression in state and returns new state.
+ * @param {Object} state - State object
+ * @param {Number} multiplier - Either 1 or -1.
+ * @percent {Number} divisor - Either 1 or 100
+ */
+function evaluateExpression(state, multiplier, divisor) {
   const lastNumIdx = endsWithOperator(state.current)
     ? state.current.length - 1
     : state.current.length;
-  const evaluated = String(
-    eval(state.current.slice(0, lastNumIdx) * negate) / percent
+  const newCurrent = String(
+    (eval(state.current.slice(0, lastNumIdx)) * multiplier) / divisor
   );
-  const unevaluated = String(state.current.slice(0, lastNumIdx));
-  return isValidNumber(evaluated)
+  const newPrev = String(state.current.slice(0, lastNumIdx));
+  return isValidNumber(newCurrent)
     ? {
-        current: evaluated,
-        previous: unevaluated,
-        display: getDisplay(evaluated, getLastNum(evaluated))
+        current: newCurrent,
+        previous: newPrev,
+        display: getDisplay(newCurrent)
       }
     : initialState;
 }
-
-const expressionReducer = (state = initialState, action) => {
-  const operators = types.BUTTONS.operators.map(operator => {
-    return operator.text;
-  });
-  const lastIdx = state.current.length - 1;
-  const lastChar = state.current.charAt(lastIdx);
-  let percent = 1;
-  let negate = 1;
-
-  switch (action.type) {
-    case types.NUMBER:
-      let updated = state.current + action.number;
-      return {
-        current: updated,
-        previous: state.previous,
-        display: getDisplay(updated, getLastNum(updated, operators))
-      };
-
-    case types.OPERATOR:
-      // IF current is an empty string
-      // let updated;
-      if (state.current === "") {
-        if (state.previous === "") {
-          return state;
-        } else {
-          updated = state.previous + action.operator;
-          return {
-            current: updated,
-            previous: state.previous,
-            display: getDisplay(
-              updated.slice(0, updated.length - 1),
-              getLastNum(updated, operators)
-            )
-          };
-        }
-      }
-      // IF current is NOT an empty string
-      else {
-        if (operators.indexOf(lastChar) > -1) {
-          updated = state.current.slice(0, lastIdx) + action.operator;
-          return {
-            current: updated,
-            previous: state.previous,
-            display: getDisplay(
-              updated.slice(0, updated.length - 1),
-              getLastNum(updated, operators)
-            )
-          };
-        } else {
-          updated = state.current + action.operator;
-          return {
-            current: updated,
-            previous: state.previous,
-            display: getDisplay(
-              updated.slice(0, updated.length - 1),
-              getLastNum(updated, operators)
-            )
-          };
-        }
-      }
-    case types.CLEAR:
-      return initialState;
-    case types.NEGATE:
-      negate = -1;
-      return evaluateExpression(state, negate, percent);
-    case types.PERCENT:
-      percent = 100;
-      return evaluateExpression(state, negate, percent);
-    case types.EQUALS:
-      return evaluateExpression(state, negate, percent);
-    case types.DECIMAL:
-      const currentReversed = state.current.split("").reverse();
-      const endsWithOperator = operators.includes(currentReversed[0]);
-
-      let lastNum = getLastNum(state.current, operators);
-      if (endsWithOperator) {
-        updated = state.current + "0.";
-        return {
-          current: updated,
-          previous: state.previous,
-          display: getDisplay(updated, getLastNum(updated, operators))
-        };
-      } else if (lastNum.includes(".")) {
-        return state;
-      } else if (state.current === "") {
-        updated = "0.";
-        return {
-          current: updated,
-          previous: state.previous,
-          display: getDisplay(updated, getLastNum(updated, operators))
-        };
-      } else {
-        updated = state.current + ".";
-        return {
-          current: updated,
-          previous: state.previous,
-          display: getDisplay(updated, getLastNum(updated, operators))
-        };
-      }
-
-    default:
-      return state;
-  }
-};
 
 export default expressionReducer;
