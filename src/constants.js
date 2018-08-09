@@ -88,6 +88,6 @@ export const BUTTONS = {
   },
   clear: {
     id: "clear",
-    text: "A/C"
+    text: "AC"
   }
 };
