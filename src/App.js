@@ -12,12 +12,11 @@ import ButtonsContainer from "./js/containers/ButtonsContainer";
 class App extends Component {
   render() {
     return (
-      <div>
-        <DisplayContainer />
-        {/* <NumbersContainer />
-        <OperatorsContainer />
-        <DecimalContainer /> */}
-        <ButtonsContainer />
+      <div className="container">
+        <div className="grid-container">
+          <DisplayContainer />
+          <ButtonsContainer />
+        </div>
       </div>
     );
   }

@@ -120,7 +120,7 @@ export class NumbersContainer extends Component {
     );
 
     return (
-      <div>
+      <div className="button-container">
         {numberButtons}
         {operatorButtons}
         {decimalButton}

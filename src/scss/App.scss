@@ -1,0 +1,100 @@
+$buttons: (
+  "clear",
+  "equals",
+  "negate",
+  "percent",
+  "decimal",
+  "add",
+  "subtract",
+  "divide",
+  "multiply",
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine"
+);
+
+body,
+#root {
+  height: 100vh;
+  margin: 0;
+  background: #a5a5a5;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 400px;
+  grid-template-rows: 100px 500px;
+  grid-template-areas: "display" "buttons";
+  background-color: black;
+}
+
+.display-container {
+  grid-area: display;
+  text-align: right;
+  color: white;
+  position: relative;
+  p {
+    height: 100%;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    font-size: 5rem;
+    margin: 0px 20px 0px 0px;
+  }
+}
+
+.button-container {
+  grid-area: buttons;
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(5, 100px);
+  grid-template-areas: "clear negate percent divide" "seven eight nine multiply" "four five six subtract" "one two three add" "zero zero decimal equals";
+}
+
+// Create button containers
+@each $button in $buttons {
+  .#{$button}-container {
+    grid-area: #{$button};
+    text-align: center;
+  }
+}
+
+button {
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  font-size: 2rem;
+  border: none;
+  background-color: #353535;
+  color: white;
+}
+
+#clear,
+#negate,
+#percent {
+  background-color: #a5a5a5;
+  color: black;
+}
+
+#divide,
+#multiply,
+#subtract,
+#add,
+#equals {
+  background-color: #ff940e;
+  color: white;
+}
