@@ -22,16 +22,20 @@ $buttons: (
 
 body,
 #root {
-  height: 100vh;
+  height: 100%;
   margin: 0;
   background: #a5a5a5;
 }
 
-.container {
-  height: 100vh;
+#root {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
 }
 
 .grid-container {
@@ -79,8 +83,25 @@ button {
   border-radius: 50%;
   font-size: 2rem;
   border: none;
-  background-color: #353535;
   color: white;
+}
+
+button:focus {
+  outline: 0;
+}
+
+#zero,
+#one,
+#two,
+#three,
+#four,
+#five,
+#six,
+#seven,
+#eight,
+#nine,
+#decimal {
+  background-color: #353535;
 }
 
 #clear,

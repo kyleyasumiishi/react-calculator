@@ -15,39 +15,90 @@ export class NumbersContainer extends Component {
     this.clickEquals = this.clickEquals.bind(this);
     this.clickNegate = this.clickNegate.bind(this);
     this.clickPercent = this.clickPercent.bind(this);
+    this.getClickStyle = this.getClickStyle.bind(this);
+    this.styleOperator = this.styleOperator.bind(this);
+    this.clearOperatorStyles = this.clearOperatorStyles.bind(this);
+  }
+
+  getClickStyle(e) {
+    this.clearOperatorStyles();
+    const bg = window.getComputedStyle(e.target).backgroundColor;
+    e.target.style.backgroundColor = "#bcbaba";
+    setTimeout(
+      target => {
+        target.style.backgroundColor = bg;
+      },
+      100,
+      e.target
+    );
+  }
+
+  clearOperatorStyles() {
+    const defaultOperatorStyles = window.getComputedStyle(
+      document.getElementById("equals")
+    );
+    const operators = BUTTONS.operators.map(operator => {
+      return operator.id;
+    });
+    operators.forEach(id => {
+      const element = document.getElementById(id);
+      element.style.backgroundColor = defaultOperatorStyles.backgroundColor;
+      element.style.color = defaultOperatorStyles.color;
+    });
+  }
+
+  styleOperator(e) {
+    this.clearOperatorStyles();
+
+    e.target.style.backgroundColor = "#fcf1cf";
+    setTimeout(
+      target => {
+        target.style.backgroundColor = "white";
+        target.style.color = "#ff940e";
+      },
+      250,
+      e.target
+    );
   }
 
   clickNumber(e) {
     const number = e.target.textContent;
     console.log(number);
+    this.getClickStyle(e);
     this.props.clickNumber(number);
   }
 
   clickOperator(e) {
     const operator = e.target.textContent;
     console.log(operator);
+    this.styleOperator(e);
     this.props.clickOperator(operator);
   }
 
   clickDecimal(e) {
     const decimal = e.target.textContent;
     console.log(decimal);
+    this.getClickStyle(e);
     this.props.clickDecimal(decimal);
   }
 
-  clickClear() {
+  clickClear(e) {
+    this.getClickStyle(e);
     this.props.clickClear();
   }
 
-  clickEquals() {
+  clickEquals(e) {
+    this.getClickStyle(e);
     this.props.clickEquals();
   }
 
-  clickNegate() {
+  clickNegate(e) {
+    this.getClickStyle(e);
     this.props.clickNegate();
   }
 
-  clickPercent() {
+  clickPercent(e) {
+    this.getClickStyle(e);
     this.props.clickPercent();
   }
 
