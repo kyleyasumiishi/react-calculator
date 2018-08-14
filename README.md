@@ -57,7 +57,14 @@ One of my primary goals for each freeCodeCamp project and set of challenges is t
 
 Here are a few skills I practiced by creating this React + Redux app:
 
--
+- Sass variables and lists
+- Sass `@each` control directive
+- CSS Grid `repeat()` function
+- Using the `includes()` method to determine whether an array includes a certain element
+- Using the `parseInt()` function to parse a string argument and return an integer of a specified radix
+- Using the `isNaN()` function to determine whether a value is NaN or not
+- Using the `eval()` function to evaluate JavaScript code represented as a string
+- Using `dispatch` versus `bindActionCreators` in Redux's `mapDispatchToProps` functions
 
 ## Technologies Used
 
